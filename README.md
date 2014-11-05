@@ -29,4 +29,6 @@ center="False"
 center="True"
 ```
 
+convert.py is a simple script that can be used to quickly convert las to csv
+
 Maybe I'll make a version that is object based and uses generators, someday.
