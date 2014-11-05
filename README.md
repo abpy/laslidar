@@ -29,4 +29,4 @@ center="False"
 center="True"
 ```
 
-maybe I'll make a version that is object based and uses generators, someday
+Maybe I'll make a version that is object based and uses generators, someday.
