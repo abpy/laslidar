@@ -28,3 +28,5 @@ option to center points around 0 and scale to ~ -1 - 1 range:
 center="False"
 center="True"
 ```
+
+maybe I'll make a version that is object based and uses generators, someday
