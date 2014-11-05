@@ -12,6 +12,11 @@ returns a list containing all points as dictionarys each having the keys:
   * returnnum
   * numreturns
 
+basic usage:
+```
+points = read_las(filename)
+```
+
 "optimized" mode returns only x, y, and z values in a tuple to save memory:
 ```
 mode="normal"
