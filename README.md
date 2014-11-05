@@ -12,6 +12,8 @@ returns a list containing all points as dictionarys each having the keys:
   * returnnum
   * numreturns
 
+###basic documentation
+
 basic usage:
 ```
 points = read_las(filename)
