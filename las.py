@@ -1,6 +1,6 @@
 import struct
 
-def read_las(filename, mode="normal"):
+def read_las(filename, mode="normal", center=False):
     las = open(filename, "rb")
     # read header
     las.seek(96)
@@ -40,9 +40,10 @@ def read_las(filename, mode="normal"):
             py = ((pdata[1] * yscale) + yofst)
             pz = ((pdata[2] * zscale) + zofst)
             #center and scale
-            px = (px - cx) * 0.0004
-            py = (py - cy) * 0.0004
-            pz = (pz - cz) * 0.0004
+            if center == True:
+                px = (px - cx) * 0.0004
+                py = (py - cy) * 0.0004
+                pz = (pz - cz) * 0.0004
 
             point["x"] = px
             point["y"] = py
