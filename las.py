@@ -23,10 +23,21 @@ def read_las(filename, mode="normal", center=False):
     maxz = struct.unpack("<d", las.read(8))[0]
     minz = struct.unpack("<d", las.read(8))[0]
 
-    # find center od data
+    # find center and scale of data
     cx = (maxx + minx) / 2.0
     cy = (maxy + miny) / 2.0
     cz = (maxz + minz) / 2.0
+
+    scx = 2 / (maxx - minx)
+    scy = 2 / (maxy - miny)
+    scz = 2 / (maxz - minz)
+    scale = min(scx, scy, scz)  # 0.0004
+
+    def centerscale(px, py, pz):
+        px = (px - cx) * scale
+        py = (py - cy) * scale
+        pz = (pz - cz) * scale
+        return px, py, pz
 
     # get points
     las.seek(offset)
@@ -39,11 +50,9 @@ def read_las(filename, mode="normal", center=False):
             px = ((pdata[0] * xscale) + xofst)
             py = ((pdata[1] * yscale) + yofst)
             pz = ((pdata[2] * zscale) + zofst)
-            #center and scale
-            if center == True:
-                px = (px - cx) * 0.0004
-                py = (py - cy) * 0.0004
-                pz = (pz - cz) * 0.0004
+            
+            if center:
+                px, py, pz = centerscale(px, py, pz)
 
             point["x"] = px
             point["y"] = py
@@ -56,16 +65,18 @@ def read_las(filename, mode="normal", center=False):
             point["returnnum"] = returnnumber
             point["numreturns"] = numberofreturns
             points.append(point)
+            
     elif mode == "optimized": #no dict for less memory
         while len(points) < n_points:
             pdata = struct.unpack("<LLLHBB", las.read(length)[:16])
-            px = (((pdata[0] * xscale) + xofst) - cx) * 0.0004
-            py = (((pdata[1] * yscale) + yofst) - cy) * 0.0004
-            pz = (((pdata[2] * zscale) + zofst) - cz) * 0.0004
+            px = ((pdata[0] * xscale) + xofst)
+            py = ((pdata[1] * yscale) + yofst)
+            pz = ((pdata[2] * zscale) + zofst)
+            if center:
+                px, py, pz = centerscale(px, py, pz)
             points.append((px, py, pz))
 
     las.close()
-    print len(points)
     return points
 
 def exportcsv(name, points, classification="all", separator=","):
