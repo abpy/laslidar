@@ -12,7 +12,7 @@ returns a list containing all points as dictionarys each having the keys:
   * "returnnum"
   * "numreturns"
 
-###basic documentation
+### basic documentation
 
 basic usage:
 ```
