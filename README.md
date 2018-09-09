@@ -1,9 +1,24 @@
 las.py
 ======
 
-python functions for reading lidar point clouds from .las files
+Simple python library for reading lidar point clouds from .las files
 
-returns a list containing all points as dictionarys each having the keys:
+In this new version: object based, uses generators, las 1.4 support
+
+### basic documentation
+
+basic usage:
+
+to load a las file:
+```
+lidar = LAS(filename)
+```
+to get the points as a generator:
+```
+points = lidar.points()
+```
+
+the generator yeilds each point as a dictionary each having the keys:
   * "x"
   * "y"
   * "z"
@@ -12,25 +27,12 @@ returns a list containing all points as dictionarys each having the keys:
   * "returnnum"
   * "numreturns"
 
-### basic documentation
 
-basic usage:
-```
-points = read_las(filename)
-```
+```points_tuple()``` returns only x, y, and z values in a tuple to save memory:
 
-"optimized" mode returns only x, y, and z values in a tuple to save memory:
+this method has options to center points around 0 and scale proportionally to ~ -1 - 1 range:
 ```
-mode="normal"
-mode="optimized"
+scale=True, scaleZ=False
 ```
 
-option to center points around 0 and scale proportionally to ~ -1 - 1 range:
-```
-center="False"
-center="True"
-```
-
-convert.py is a simple script that can be used to quickly convert las to csv
-
-Maybe I'll make a version that is object based and uses generators, someday.
+```points_tuple_p()``` is the same but without options
